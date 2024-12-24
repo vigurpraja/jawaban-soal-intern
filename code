@@ -1,0 +1,38 @@
+#include <iostream>
+#include <sstream> // Untuk std::stringstream
+using namespace std;
+
+int main() {
+    double jamKerja, tarifPerJam, gaji, gajiLembur;
+    double jamLembur = 0;
+
+    // Meminta input dari pengguna
+    cout << "Masukkan jumlah jam kerja dalam seminggu: ";
+    cin >> jamKerja;
+
+    cout << "Masukkan tarif per jam: ";
+    cin >> tarifPerJam;
+
+    // Menghitung gaji normal
+    if (jamKerja > 40) {
+        jamLembur = jamKerja - 40;
+        gaji = 40 * tarifPerJam;                  // Gaji untuk 40 jam pertama
+        gajiLembur = jamLembur * (tarifPerJam * 1.5); // Gaji lembur
+        gaji += gajiLembur;                      // Total gaji
+    } else {
+        gaji = jamKerja * tarifPerJam;
+    }
+
+    // Mengonversi gaji ke string
+    stringstream ss;
+    ss << fixed;             // Pastikan format angka biasa (tidak ilmiah)
+    ss.precision(0);         // Tidak ada desimal
+    ss << gaji;              // Masukkan gaji ke stringstream
+
+    string hasil = ss.str(); // Ambil hasil sebagai string
+
+    // Menampilkan hasil
+    cout << "Total gaji yang diperoleh: Rp " << hasil << endl;
+
+    return 0;
+}
