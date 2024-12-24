@@ -1,0 +1,234 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const CartridgeKingsApp());
+}
+
+class CartridgeKingsApp extends StatelessWidget {
+  const CartridgeKingsApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Icon(Icons.king_bed, color: Colors.orange),
+                  SizedBox(width: 8),
+                  Text('CARTRIDGE KINGS', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              Row(
+                children: const [
+                  Text('Search'),
+                  SizedBox(width: 10),
+                  Icon(Icons.search),
+                  SizedBox(width: 10),
+                  Icon(Icons.shopping_cart),
+                ],
+              ),
+            ],
+          ),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 2,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Banner Section
+              Stack(
+                children: [
+                  Container(
+                    height: 250,
+                    color: Colors.blueGrey,
+                    child: const Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 100,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 50,
+                    left: 20,
+                    right: 20,
+                    child: Column(
+                      children: [
+                        const Text(
+                          'FIND THE RIGHT CARTRIDGES FOR YOUR PRINTER',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                DropdownButtonFormField(
+                                  items: const [
+                                    DropdownMenuItem(value: 'HP', child: Text('HP')),
+                                    DropdownMenuItem(value: 'Canon', child: Text('Canon')),
+                                  ],
+                                  onChanged: (value) {},
+                                  decoration: const InputDecoration(labelText: 'Printer Brand'),
+                                ),
+                                DropdownButtonFormField(
+                                  items: const [
+                                    DropdownMenuItem(value: 'Series 1', child: Text('Series 1')),
+                                    DropdownMenuItem(value: 'Series 2', child: Text('Series 2')),
+                                  ],
+                                  onChanged: (value) {},
+                                  decoration: const InputDecoration(labelText: 'Printer Series'),
+                                ),
+                                DropdownButtonFormField(
+                                  items: const [
+                                    DropdownMenuItem(value: 'Model 1', child: Text('Model 1')),
+                                    DropdownMenuItem(value: 'Model 2', child: Text('Model 2')),
+                                  ],
+                                  onChanged: (value) {},
+                                  decoration: const InputDecoration(labelText: 'Printer Model'),
+                                ),
+                                const SizedBox(height: 20),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Text('FIND CARTRIDGES'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Featured Products Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'FEATURED PRODUCTS',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      children: [
+                        ProductCard(
+                          icon: Icons.print,
+                          name: 'HP 62 Black Ink Cartridge',
+                          price: '\$9.49',
+                          discountPrice: '\$5.99',
+                        ),
+                        ProductCard(
+                          icon: Icons.tonality,
+                          name: 'Canon MF-3110 Toner',
+                          price: '\$36.45',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final IconData icon;
+  final String name;
+  final String price;
+  final String? discountPrice;
+
+  const ProductCard({
+    required this.icon,
+    required this.name,
+    required this.price,
+    this.discountPrice,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Center(
+              child: Icon(
+                icon,
+                size: 80,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 5),
+                if (discountPrice != null)
+                  Text(
+                    discountPrice!,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                Text(
+                  price,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    decoration: discountPrice != null ? TextDecoration.lineThrough : null,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
